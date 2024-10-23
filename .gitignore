@@ -1,0 +1,7 @@
+.vscode
+
+.venv
+__pycache__
+
+test-requirements.txt
+test-*.py
