@@ -8,13 +8,13 @@ Execute SQL as a function, and convert result to object.
 from dataclasses import dataclass
 from typing import List
 
-from mariadb import connect
+import mariadb
 from sql2func import SqlContext, select
 from sql2func.dbapi2 import Connection
 
 
 def connect_to_db() -> Connection:
-    return connect(
+    return mariadb.connect(
         host='localhost',
         user='db_user',
         password='db_password',
@@ -56,4 +56,3 @@ pip install sql2funcs
 # Install develop version
 pip install git+https://github.com/deadblue/sql2func.git@develop
 ```
-

@@ -6,6 +6,7 @@ build-backend = "hatchling.build"
 name = "sql2func"
 dynamic = ["version"]
 description = "Run SQL as a function."
+readme = "README.md"
 license = { file = "LICENSE" }
 authors = [
     {name = "Tomo Kunagisa", email = "root@dead.blue"}
