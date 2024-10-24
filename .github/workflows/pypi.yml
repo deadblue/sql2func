@@ -1,4 +1,4 @@
-name: Publish Python Package
+name: Publish sql2func to PyPI
 
 on:
   push:
@@ -31,11 +31,13 @@ jobs:
         path: dist/
 
   publish:
-    name: Publish package
+    name: Upload release to PyPI
     needs: 
       - build
     runs-on: ubuntu-latest
-    environment: pypi
+    environment: 
+      name: pypi
+      url: https://pypi.org/p/sql2func/
     permissions:
       id-token: write
     steps:

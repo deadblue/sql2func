@@ -1,4 +1,4 @@
-name: Publish sql2func
+name: Publish sql2func to Test PyPI
 
 on:
   push:
