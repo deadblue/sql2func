@@ -1,6 +1,6 @@
 # sql2func
 
-Execute SQL as a function, and convert result to object.
+Run SQL as a function!
 
 ## Example
 
@@ -13,6 +13,34 @@ from sql2func import SqlContext, select
 from sql2func.dbapi2 import Connection
 
 
+@dataclass
+class Foobar:
+    """
+    Foobar data class
+    """
+    fb_id: int
+    foo: str
+    bar: str
+
+
+@select(statement='''
+SELECT fb_id, foo, bar
+FROM tbl_foobar
+WHERE foo = {{ foo }}
+''')
+def select_foobars(foo: str) -> List[Foobar]:
+    pass
+
+
+@update(statement='''
+UPDATE tbl_foobar
+SET bar = {{ bar }}
+WHERE fb_id = {{ fb_id }}
+''')
+def update_foobar(fb_id: int, bar: str) -> int:
+    pass
+
+
 def connect_to_db() -> Connection:
     return mariadb.connect(
         host='localhost',
@@ -22,24 +50,15 @@ def connect_to_db() -> Connection:
     )
 
 
-@dataclass
-class Result:
-    a: str
-    b: str
-
-@select(statement='''
-SELECT a,b
-FROM table
-WHERE key = {{ key }}
-''')
-def query_result(key: str) -> List[Result]:
-    pass
-
-
 def _main():
     with SqlContext(connector=connect_to_db):
-        for result in query_result(key='foo'):
+        # All SQLs in this context will be run via one DB connection.
+        # Run select.
+        for result in select_foobars(foo='foo'):
             print(result)
+        # Run update.
+        update_foobar(fb_id=1, bar='blabla')
+    # DB connection will be closed after SqlContext exited.
 
 
 if __name__ == '__main__':
