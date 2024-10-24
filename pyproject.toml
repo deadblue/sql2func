@@ -23,7 +23,7 @@ classifiers = [
     "Topic :: Database",
 ]
 requires-python = ">=3.10"
-dependencies = [ "Jinja2 ~= 3.0.0" ]
+dependencies = [ "Jinja2 >= 3.0.0, < 4" ]
 
 [project.urls]
 Homepage = "https://github.com/deadblue/sql2func"
