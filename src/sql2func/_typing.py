@@ -42,11 +42,16 @@ def unpack_union_type(cls: Type) -> Type:
     else:
         return cls
 
-def convert_to(value: Dict[str, Any], cls: Type[T]) -> T:
+def convert_to(row: Dict[str, Any], cls: Type[T] | None) -> T:
     if dataclasses.is_dataclass(cls):
-        return cls(**value)
+        return cls(**row)
     elif is_pydantic_model(cls):
-        return cls.model_validate(value)
-    elif is_dict(cls):
-        return value
+        return cls.model_validate(row)
+    elif cls is None or is_dict(cls):
+        return row
+    # Single column special case
+    if len(row) == 1:
+        value = next(iter(row.values()))
+        if isinstance(value, cls):
+            return value
     return None
